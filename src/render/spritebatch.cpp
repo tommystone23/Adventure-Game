@@ -189,11 +189,9 @@ void SpriteBatch::create_render_batches()
             _render_batches.back().num_vertices += 4;
         }
         vertices[cur_vertex++] = _glyph_pointers[cur_glyph]->top_left;
-        vertices[cur_vertex++] = _glyph_pointers[cur_glyph]->bottom_left;
-        vertices[cur_vertex++] = _glyph_pointers[cur_glyph]->bottom_right;
-        vertices[cur_vertex++] = _glyph_pointers[cur_glyph]->bottom_right;
         vertices[cur_vertex++] = _glyph_pointers[cur_glyph]->top_right;
-        vertices[cur_vertex++] = _glyph_pointers[cur_glyph]->top_left;
+        vertices[cur_vertex++] = _glyph_pointers[cur_glyph]->bottom_right;
+        vertices[cur_vertex++] = _glyph_pointers[cur_glyph]->bottom_left;
         offset += 4;
     }
 
@@ -258,9 +256,8 @@ void SpriteBatch::init_indices(std::vector<GLuint> *indices)
     // Confusing bit of for loops, but idea is the above set of indices
     // is how the vertex data triangles are arranged. We simply need to initialize
     // all index data with the correct offsets
-    for(size_t i = 0; i < indices->size();)
+    for(size_t i = 0, offset = 0; i < indices->size(); offset += 4)
     {
-        GLuint offset = i;
         for(int j = 0; j < 6; j++) 
         {
             (*indices)[i++] = base_index[j] + offset;
