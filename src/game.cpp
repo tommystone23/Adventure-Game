@@ -4,6 +4,8 @@
 #include "utils/inputmanager.h"
 #include "world/worldgenerator.h"
 
+const static float TILE_LENGTH = 48.0f;
+
 Game::Game()
     : GameObject(),
     _state(STARTING),
@@ -39,7 +41,7 @@ bool Game::init()
 
     _input_manager = new InputManager();
 
-    _world_generator = new WorldGenerator(1000, 1000);
+    _world_generator = new WorldGenerator(TILE_LENGTH, 1000, 1000);
     _world_generator->generate_world(500000);
 
     return true;
@@ -68,17 +70,17 @@ void Game::update()
 
 void Game::render()
 {
-    glm::vec4 dest_rect = { 500.0f, 500.0f, 48.0f, 48.0f };
-    _renderer->camera()->set_position(glm::vec2(500.0f, 500.0f));
+    glm::vec4 dest_rect = { 500.0f * TILE_LENGTH, 500.0f * TILE_LENGTH, TILE_LENGTH, TILE_LENGTH };
+    _renderer->camera()->set_position(glm::vec2(500.0f * TILE_LENGTH, 500.0f * TILE_LENGTH));
     glm::vec4 uv_rect = { 
         0.0f, 
-        (1.0f - (48.0f / _texture.height)), 
-        (48.0f / (float)_texture.width), 
-        (48.0f / (float)_texture.height) 
+        (1.0f - (TILE_LENGTH / _texture.height)), 
+        (TILE_LENGTH / (float)_texture.width), 
+        (TILE_LENGTH / (float)_texture.height) 
     };
     Color color = { 255, 255, 255, 255 };
 
-    Tile **tile_data = _world_generator->get_world_data();
+    std::vector<std::vector<Tile>> tile_data = _world_generator->get_world_data();
     for(int i = 0; i < 1000; i++)
     {
         for(int j = 0; j < 1000; j++)
@@ -86,7 +88,7 @@ void Game::render()
             Tile tile = tile_data[i][j];
             if(tile.type == GRASS)
             {
-                glm::vec4 tile_dest_rect = { tile.position.x, tile.position.y, 48.0f, 48.0f };
+                glm::vec4 tile_dest_rect = { tile.position.x, tile.position.y, TILE_LENGTH, TILE_LENGTH };
                 _renderer->draw(tile_dest_rect, uv_rect, _texture.id, color);
             }
         }

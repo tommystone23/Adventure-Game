@@ -2,8 +2,8 @@
 #include <random>
 #include <ctime>
 
-WorldGenerator::WorldGenerator(int width, int height)
-    : _tile_data(NULL),
+WorldGenerator::WorldGenerator(float tile_length, int width, int height)
+    : _tile_length(tile_length),
     _width(width),
     _height(height)
 {
@@ -20,26 +20,31 @@ bool WorldGenerator::generate_world(int nb_steps)
 
 void WorldGenerator::allocate_tile_data()
 {
-    _tile_data = new Tile*[_height];
-    for(int i = 0; i < _height; i++)
+    _tile_data.resize(_height);
+    for(size_t i = 0; i < _tile_data.size(); i++)
     {
-        _tile_data[i] = new Tile[_width];
+        _tile_data[i].resize(_width);
+        for(size_t j = 0; j < _tile_data[i].size(); j++)
+        {
+            Tile *tile = &_tile_data[i][j];
+            glm::vec2 pos_scaled = { i * _tile_length, j * _tile_length };
+            tile->position = pos_scaled;
+        }
     }
 }
 
 void WorldGenerator::destroy_tile_data()
 {
-    for(int i = 0; i < _height; i++)
+    for(size_t i = 0; i < _tile_data.size(); i++)
     {
-        delete[] _tile_data[i];
+        _tile_data[i].clear();
     }
-
-    delete[] _tile_data;
+    _tile_data.clear();
 }
 
 void WorldGenerator::random_walk_generate_world(int nb_steps)
 {
-    // Position ourselves in centre of map
+    // Position ourselves in centre of map, and generate outwards
     glm::vec2 cur_pos = { (_width / 2), (_height / 2) };
 
     _tile_data[(int)cur_pos.y][(int)cur_pos.x].position = cur_pos;
@@ -64,13 +69,22 @@ void WorldGenerator::random_walk_generate_world(int nb_steps)
 
             if(new_pos.x >= 0 && new_pos.x < _width && new_pos.y >= 0 && new_pos.y < _height)
             {
-                _tile_data[(int)new_pos.y][(int)new_pos.x].position = new_pos;
                 _tile_data[(int)new_pos.y][(int)new_pos.x].type = GRASS;
 
                 cur_pos = new_pos;
 
                 break;
             }
+        }
+    }
+    // Fill in water where blank spaces are
+    for(size_t i = 0; i < _tile_data.size(); i++)
+    {
+        for(size_t j = 0; j < _tile_data[i].size(); j++)
+        {
+            Tile tile = _tile_data[i][j];
+            if(tile.type == NONE)
+                tile.type = WATER;
         }
     }
 }

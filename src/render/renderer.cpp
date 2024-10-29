@@ -2,9 +2,6 @@
 #include <algorithm>
 #include "spritebatch.h"
 
-const static int TILE_WIDTH = 48;
-const static int TILE_HEIGHT = 48;
-
 Renderer::Renderer(Window *window)
     : GameObject(),
     _sprite_batch(NULL),

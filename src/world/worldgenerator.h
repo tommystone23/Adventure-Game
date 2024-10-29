@@ -2,6 +2,7 @@
 #define WORLD_GENERATOR_H
 
 #include <glm/glm.hpp>
+#include <vector>
 
 enum TileType
 {
@@ -19,16 +20,17 @@ struct Tile
 class WorldGenerator
 {
 public:
-    WorldGenerator(int width, int height);
+    WorldGenerator(float tile_length, int width, int height);
     ~WorldGenerator() { destroy_tile_data(); }
 
     bool generate_world(int nb_steps);
 
-    Tile** get_world_data() { return _tile_data; }
+    std::vector<std::vector<Tile>> get_world_data() { return _tile_data; }
 
 private:
-    Tile** _tile_data;
+    std::vector<std::vector<Tile>> _tile_data;
 
+    float _tile_length;
     int _width;
     int _height;
 
