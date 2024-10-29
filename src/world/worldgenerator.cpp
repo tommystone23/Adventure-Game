@@ -42,8 +42,8 @@ void WorldGenerator::random_walk_generate_world(int nb_steps)
     // Position ourselves in centre of map
     glm::vec2 cur_pos = { (_width / 2), (_height / 2) };
 
-    _tile_data[(int)cur_pos.x][(int)cur_pos.y].position = cur_pos;
-    _tile_data[(int)cur_pos.x][(int)cur_pos.y].type = GRASS;
+    _tile_data[(int)cur_pos.y][(int)cur_pos.x].position = cur_pos;
+    _tile_data[(int)cur_pos.y][(int)cur_pos.x].type = GRASS;
 
     glm::vec2 allowed_movements[4] = {
         { 0.0f, 1.0f }, // up
@@ -62,10 +62,10 @@ void WorldGenerator::random_walk_generate_world(int nb_steps)
         {
             glm::vec2 new_pos = cur_pos + allowed_movements[rand_movement(random_engine)];
 
-            if(new_pos.x >= 0 && new_pos.y < _width && new_pos.y >= 0 && new_pos.y < _height)
+            if(new_pos.x >= 0 && new_pos.x < _width && new_pos.y >= 0 && new_pos.y < _height)
             {
-                _tile_data[(int)new_pos.x][(int)new_pos.y].position = new_pos;
-                _tile_data[(int)new_pos.x][(int)new_pos.y].type = GRASS;
+                _tile_data[(int)new_pos.y][(int)new_pos.x].position = new_pos;
+                _tile_data[(int)new_pos.y][(int)new_pos.x].type = GRASS;
 
                 cur_pos = new_pos;
 
