@@ -82,9 +82,9 @@ void WorldGenerator::random_walk_generate_world(int nb_steps)
     {
         for(size_t j = 0; j < _tile_data[i].size(); j++)
         {
-            Tile tile = _tile_data[i][j];
-            if(tile.type == NONE)
-                tile.type = WATER;
+            Tile *tile = &_tile_data[i][j];
+            if(tile->type == NONE)
+                tile->type = WATER;
         }
     }
 }

@@ -8,6 +8,7 @@ class Window;
 class Renderer;
 class InputManager;
 class WorldGenerator;
+class Player;
 
 enum GameState
 {
@@ -33,7 +34,9 @@ private:
     InputManager *_input_manager;
     WorldGenerator *_world_generator;
 
-    GLTexture _texture;
+    GLTexture _grass_texture;
+    GLTexture _water_texture;
+    Player *_player;
 
     void check_input();
     void update();
