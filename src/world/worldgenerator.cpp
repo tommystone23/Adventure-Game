@@ -47,7 +47,6 @@ void WorldGenerator::random_walk_generate_world(int nb_steps)
     // Position ourselves in centre of map, and generate outwards
     glm::vec2 cur_pos = { (_width / 2), (_height / 2) };
 
-    _tile_data[(int)cur_pos.y][(int)cur_pos.x].position = cur_pos;
     _tile_data[(int)cur_pos.y][(int)cur_pos.x].type = GRASS;
 
     glm::vec2 allowed_movements[4] = {

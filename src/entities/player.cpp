@@ -10,16 +10,18 @@ Player::Player(glm::vec4 start_rect, Renderer *renderer, InputManager *input_man
 {
     set_identifier("Player");
 
-    if(!ImageLoader::load_texture("textures/sprites/characters/player.png", &_texture))
+    if(!ImageLoader::load_texture("textures/Cute_Fantasy_Free/Player/Player.png", &_texture))
         info() << "unable to open texture for player";
 
     _pos_rect = start_rect;
-    _speed = 3.0f;
+    _speed = 2.0f;
+    float texture_width_pixels = _texture.width / 6;
+    float texture_height_pixels = _texture.height / 10;
     // Hardcode UV coordinates for now
     _uv_rect = { 0.0f, 
-        (1.0f - (TILE_LENGTH / _texture.height)), 
-        (TILE_LENGTH / (float)_texture.width), 
-        (TILE_LENGTH / (float)_texture.height) 
+        (1.0f - (texture_height_pixels / _texture.height)), 
+        (texture_width_pixels / (float)_texture.width), 
+        (texture_height_pixels / (float)_texture.height) 
     };
     _color = { 255, 255, 255, 255 };
 }

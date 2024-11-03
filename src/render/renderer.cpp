@@ -12,7 +12,7 @@ Renderer::Renderer(Window *window)
 
     _camera = new Camera2D();
     _camera->init(_window->get_width(), _window->get_height());
-    _camera->set_scale(1.0f);
+    _camera->set_scale(2.0f);
     _camera->set_position(glm::vec2(0.0f, 0.0f));
 }
 

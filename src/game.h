@@ -2,13 +2,11 @@
 #define GAME_H
 
 #include "utils/gameobject.h"
-#include "render/imageloader.h"
 
 class Window;
 class Renderer;
 class InputManager;
-class WorldGenerator;
-class Player;
+class World;
 
 enum GameState
 {
@@ -32,11 +30,7 @@ private:
     Window *_window;
     Renderer *_renderer;
     InputManager *_input_manager;
-    WorldGenerator *_world_generator;
-
-    GLTexture _grass_texture;
-    GLTexture _water_texture;
-    Player *_player;
+    World *_world;
 
     void check_input();
     void update();

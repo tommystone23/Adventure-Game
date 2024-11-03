@@ -8,8 +8,6 @@
 
 class Renderer;
 
-const static float TILE_LENGTH = 48.0f;
-
 class Entity : public GameObject
 {
 public:
